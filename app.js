@@ -44,11 +44,20 @@ gox.createStream(defaultOptions).on('data', function(data){
     catch (err) {}
 });
 
-app.get('/', function(req, res){
-    recordModel.find({},function(err, logs){
-        res.json(logs);
-    })
+app.get('/:before/between/:after', function(req, res){
+    try{
+        var before = new Date(req.params.before * 1000)
+        var after = new Date(req.params.after * 1000)
+        recordModel.find({recordTime : {$gt : before, $lt : after}},function(err, logs){
+            res.json(logs);
+        })
+    }
+    catch(err){res.send(503)}
 
 });
+
+app.get('/',function(req,res){
+    res.send("I changed it so you send a request like this GET /[time before]/between/[time after] where before and after are unix timestamps")
+})
 
 app.listen(3000);
