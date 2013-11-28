@@ -6,7 +6,8 @@
         "express" : "*",
         "mongoose" : "*",
         "ws": "git://github.com/ralphtheninja/ws.git",
-        "xtend": "2.0.3"
+        "xtend": "2.0.3",
+        "goxstream": "*"
     },
     "devDependencies": {
         "tap": "~0.4.0"
