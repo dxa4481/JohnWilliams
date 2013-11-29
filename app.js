@@ -96,7 +96,7 @@ setInterval(function(){
 
     })
 
-},3000);
+},30000);
 
 
 var getBuySellFromUrl= function(url, cb){
