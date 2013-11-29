@@ -10,6 +10,7 @@ var gox = require('goxstream')
 var initMongo = require('./initMongo')
 var recordModel = require('./recordModel')
 var express = require("express")
+var http = require("https")
 
 app = express()
 
@@ -44,11 +45,18 @@ gox.createStream(defaultOptions).on('data', function(data){
     catch (err) {}
 });
 
-app.get('/:before/between/:after', function(req, res){
+app.get('/gox', function(req, res){
     try{
-        var before = new Date(req.params.before * 1000)
-        var after = new Date(req.params.after * 1000)
-        recordModel.find({recordTime : {$gt : before, $lt : after}},function(err, logs){
+        recordModel.find({exchange: "GOX"},function(err, logs){
+            res.json(logs);
+        })
+    }
+    catch(err){res.send(503)}
+
+});
+app.get('/coinbase', function(req, res){
+    try{
+        recordModel.find({exchange: "coinbase"},function(err, logs){
             res.json(logs);
         })
     }
@@ -61,3 +69,46 @@ app.get('/',function(req,res){
 })
 
 app.listen(3000);
+var buyPrice, sellPrice
+setInterval(function(){
+
+    getBuySellFromUrl("https://coinbase.com/api/v1/prices/sell", function(bp_json){
+        getBuySellFromUrl("https://coinbase.com/api/v1/prices/buy", function(sp_json){
+            var newBuyPrice = Number(bp_json.subtotal.amount)
+            var newSellPrice = Number(sp_json.subtotal.amount)
+            if(newBuyPrice != buyPrice && newSellPrice != sellPrice){
+                buyPrice = newBuyPrice
+                sellPrice = newSellPrice
+                var record = new recordModel(
+                    {
+                        exchange : "coinbase",
+                        buyPrice: buyPrice,
+                        sellPrice : sellPrice
+                    })
+                record.save()
+            }
+        })
+
+    })
+
+},3000);
+
+
+var getBuySellFromUrl= function(url, cb){
+    var total = ''
+    try{
+        http.get(url,function(res){
+            res.on('data', function (chunk) {
+                total += chunk
+            });
+            res.on('end',function(){
+                total = total.toString()
+                var data = JSON.parse(total)
+                cb(data);
+            })
+        })
+    }
+    catch(err){console.log(err)}
+
+
+}
