@@ -45,6 +45,11 @@ gox.createStream(defaultOptions).on('data', function(data){
     catch (err) {}
 });
 
+app.get('/', function(req, res){
+    res.send("<div>Added a new exchange, try</div> <div> GET /gox</div> <div> or </div> GET /coinbase")
+
+});
+
 app.get('/gox', function(req, res){
     try{
         recordModel.find({exchange: "GOX"},function(err, logs){
