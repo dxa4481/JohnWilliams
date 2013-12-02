@@ -22,8 +22,8 @@ var api_routes = function(app, recordModel){
         var long = Number(req.params.long)
         var short = Number(req.params.short)
         if(!(long && short)){return res.send(401)}
-        recordModel.find({exchange: "coinbase", recordTime : {$lt: (new Date() - long)}}, function(err, longlist){
-            recordModel.find({exchange: "coinbase", recordTime : {$lt: (new Date() - short)}}, function(err, shortlist){
+        recordModel.find({exchange: "coinbase", recordTime : {$lt: (new Date(Date.now() - long))}}, function(err, longlist){
+            recordModel.find({exchange: "coinbase", recordTime : {$lt: (new Date(Date.now() - short))}}, function(err, shortlist){
                 var longAvg = _avgListOfObj(longlist, "buyPrice")
                 var shortAvg = _avgListOfObj(shortlist, "buyPrice")
                 res.json({longBuyAvg: longAvg, shortBuyAvg: shortAvg})
