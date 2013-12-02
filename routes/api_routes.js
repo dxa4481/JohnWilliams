@@ -18,6 +18,14 @@ var api_routes = function(app, recordModel){
         catch(err){res.send(503)}
 
     });
+    app.get('/coinbase/latest', function(req, res){
+        recordModel.findOne({}, {}, { sort: { recordTime : -1 } }, function(err, log) {
+            res.json(log)
+        });
+    })
+
+
+
     app.get('/coinbase/averages/:long/:short', function(req, res){
         var long = Number(req.params.long)
         var short = Number(req.params.short)
