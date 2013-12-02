@@ -35,7 +35,7 @@ var api_routes = function(app, recordModel){
                 var longAvg = _avgListOfObj(longlist, "buyPrice")
                 var shortAvg = _avgListOfObj(shortlist, "buyPrice")
                 console.log(longlist)
-                res.json({longBuyAvg: longAvg, shortBuyAvg: shortAvg})
+                res.json({longBuyAvg: longAvg, shortBuyAvg: shortAvg, buyIndex: shortAvg/longAvg, shortMS: short, longMS: long})
             })
         })
     })
