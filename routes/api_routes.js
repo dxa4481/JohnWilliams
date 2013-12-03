@@ -27,11 +27,11 @@ var api_routes = function(app, recordModel){
 
 
     app.get('/coinbase/averages/:long/:short', function(req, res){
-        var long = Number(req.params.long) * 1000
-        var short = Number(req.params.short) * 1000
+        var long = Number(req.params.long)
+        var short = Number(req.params.short)
         if(!(long && short)){return res.send(401)}
-        recordModel.find({exchange: "coinbase", recordTime : {$gt: (new Date(Date.now() - long))}}, function(err, longlist){
-            recordModel.find({exchange: "coinbase", recordTime : {$gt: (new Date(Date.now() - short))}}, function(err, shortlist){
+        recordModel.find({exchange: "coinbase", recordTime : {$gt: (Date.now() - long * 1000)}}, function(err, longlist){
+            recordModel.find({exchange: "coinbase", recordTime : {$gt: (Date.now() - short * 1000)}}, function(err, shortlist){
                 var longAvg = _avgListOfObj(longlist, "buyPrice")
                 var shortAvg = _avgListOfObj(shortlist, "buyPrice")
                 console.log(longlist)
