@@ -13,9 +13,9 @@ var coinbase_exchange = function(app, recordModel){
         setInterval(function(){
 
             app.getJSONFromUrl("https://coinbase.com/api/v1/prices/sell", function(bp_json, err){
-                if(err != null){
+                if(err == null){
                     app.getJSONFromUrl("https://coinbase.com/api/v1/prices/buy", function(sp_json, err){
-                        if(err != null){
+                        if(err == null){
                             var newBuyPrice = Number(bp_json.subtotal.amount)
                             var newSellPrice = Number(sp_json.subtotal.amount)
                             if(newBuyPrice != buyPrice && newSellPrice != sellPrice){

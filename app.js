@@ -21,7 +21,6 @@ app.getJSONFromUrl= function(url, cb){
         });
         res.on('end',function(){
             total = total.toString()
-
             try{
                 var data = JSON.parse(total)
             }
