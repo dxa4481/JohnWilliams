@@ -1,5 +1,5 @@
 
-var initMongo = require('./nitMongo')
+var initMongo = require('./initMongo')
 var recordModel = require('./models/recordModel')
 var express = require("express")
 var http = require("https")
