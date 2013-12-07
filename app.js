@@ -7,6 +7,8 @@ var api_routes = require("./routes/api_routes")
 var ui_routes = require("./routes/ui_routes")
 var gox_exchange = require("./exchanges/gox")
 var coinbase_exchange = require("./exchanges/coinbase")
+var config = require("./config")
+var coinbase_sms = require("./notifications/coinbase_sms")
 
 app = express()
 
@@ -34,5 +36,6 @@ api_routes(app, recordModel);
 ui_routes(app);
 gox_exchange(recordModel);
 coinbase_exchange(app, recordModel);
+coinbase_sms.start();
 
 
