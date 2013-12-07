@@ -1,5 +1,5 @@
 
-var initMongo = require('./initMongo')
+var initMongo = require('./nitMongo')
 var recordModel = require('./models/recordModel')
 var express = require("express")
 var http = require("https")
@@ -15,19 +15,24 @@ app = express()
 
 app.getJSONFromUrl= function(url, cb){
     var total = ''
-    try{
-        http.get(url,function(res){
-            res.on('data', function (chunk) {
-                total += chunk
-            });
-            res.on('end',function(){
-                total = total.toString()
+    http.get(url,function(res){
+        res.on('data', function (chunk) {
+            total += chunk
+        });
+        res.on('end',function(){
+            total = total.toString()
+
+            try{
                 var data = JSON.parse(total)
-                cb(data);
-            })
+            }
+            catch(err){
+                console.log(err)
+                return cb(null, Error("Not json"))
+            }
+            cb(data, null);
         })
-    }
-    catch(err){console.log(err)}
+    })
+
 }
 
 db = initMongo.init()
