@@ -21,7 +21,7 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 var state = "stable"
 
 var getState = function(cb){
-    recordModel.getAverage("coinbase", 10800, "buyPrice", function(longAvg){
+    recordModel.getAverage("coinbase", 18000, "buyPrice", function(longAvg){
         recordModel.getAverage("coinbase", 900, "buyPrice", function(shortAvg){
             if(shortAvg > longAvg * 1.1){
                 cb("gainedTen")
