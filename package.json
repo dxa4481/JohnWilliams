@@ -8,7 +8,8 @@
         "ws": "git://github.com/ralphtheninja/ws.git",
         "xtend": "2.0.3",
         "goxstream": "*",
-        "nodemailer": "*"
+        "nodemailer": "*",
+        "jade": "*"
     },
     "devDependencies": {
         "tap": "~0.4.0"

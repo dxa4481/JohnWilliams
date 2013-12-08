@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    #wrapper
+        #display
+            #login
+                form(method='post')
+                    | Enter username and password
+                    div
+                        input(type='text', name='username')
+                        input(type='text', name='password')
+                        input(type='submit', value='Log In')

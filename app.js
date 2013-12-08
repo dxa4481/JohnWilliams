@@ -9,13 +9,26 @@ var gox_exchange = require("./exchanges/gox")
 var coinbase_exchange = require("./exchanges/coinbase")
 var config = require("./config")
 var coinbase_sms = require("./notifications/coinbase_sms")
+var path = require('path');
 
-app = express()
+var app = express()
+var basedir = process.cwd()
 
+app.configure(function(){
+    app.set("views", path.join(basedir, "public/views") )
+    app.set("view engine", "jade")
+    app.use(express.logger())
+    app.use(express.cookieParser())
+    app.use(express.bodyParser())
+});
+
+app.configure('development', function(){
+    app.use(express.errorHandler());
+});
 
 app.getJSONFromUrl= function(url, cb){
     var total = ''
-    http.get(url,function(res){
+    var req = http.get(url,function(res){
         res.on('data', function (chunk) {
             total += chunk
         });
@@ -31,6 +44,10 @@ app.getJSONFromUrl= function(url, cb){
             cb(data, null);
         })
     })
+    req.on('error', function(e) {
+        cb(null, Error("Problem with getting URL"))
+    });
+    req.end();
 
 }
 
