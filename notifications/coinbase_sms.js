@@ -42,7 +42,28 @@ getState(function(newState){
     state = newState
 })
 
+var hitAlready = false
+var extraCheck = function(){
+    recordModel.findOne({}, {}, { sort: { recordTime : -1 } }, function(err, log) {
+        console.log(log.buyPrice)
+        if(log.buyPrice > 1000 && !hitAlready){
+            hitAlready = true
+            mailOptions.text = "The price hit 1000, this is your message"
+            smtpTransport.sendMail(mailOptions, function(error, response){
+                if(error){
+                    console.log(error);
+                }else{
+                    console.log("Message sent: " + response.message);
+                }
 
+                // if you don't want to use this transport object anymore, uncomment following line
+                //smtpTransport.close(); // shut down the connection pool, no more messages
+            });
+        }
+
+    });
+
+}
 
 module.exports = {
     start : function(){
@@ -77,6 +98,7 @@ module.exports = {
                 state = newState
                 console.log(state)
             })
+            extraCheck()
 
         }, 10000)
     },
