@@ -27,7 +27,7 @@ This is an open source RESTful bitcoin market API used for collecting real time 
     
     $ curl localhost:3000/coinbase/latest
       
- Short term average/Long term average state:
+ Short term average/Long term average current state:
     
     $ curl localhost:3000/coinbase/state
       
