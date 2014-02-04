@@ -2,8 +2,8 @@ var config = {
     email : {
         service: "Gmail",
         auth: {
-            user: "SMSbitcoinserver@gmail.com",
-            pass: "fryingseagullcookies"
+            user: "USERNAMEGOESHERE",
+            pass: "PASSWORDGOESHERE"
         }
     }
 
